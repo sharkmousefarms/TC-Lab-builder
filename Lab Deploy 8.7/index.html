@@ -1,0 +1,743 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TC Lab Builder (Fixed)</title>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
+<style>
+html, body {
+  margin: 0; padding: 0; background: black;
+  font-family: 'Audiowide', cursive; height: 100%; overflow: hidden;
+}
+#labWrapper {
+  position: relative; width: 100vw; height: 100vh;
+  background: url('https://magical-sable-48a8f9.netlify.app/resized_lab_ui_image.png') center/contain no-repeat;
+}
+.sidebar {
+  position: fixed; right: 0; top: 0; width: 380px; height: 100%;
+  background: rgba(0,15,30,0.95); color: white;
+  overflow-y: auto; padding: 1rem; z-index: 20;
+  border-left: 2px solid cyan;
+}
+.zone-group { margin-bottom: 1.5rem; }
+.zone-title {
+  font-size: 1.4rem; color: cyan; cursor: pointer; margin-bottom: 0.5rem;
+}
+.item-group { margin-left: 1rem; display: none; }
+.item-name { margin: 0.5rem 0; color: #0ff; }
+.tier-button {
+  margin-left: 1.5rem; margin-bottom: 0.3rem;
+  background: #111; color: white; border: 1px solid #0ff;
+  padding: 0.3rem 0.5rem; cursor: pointer; display: inline-block;
+}
+.tier-button:hover { background: cyan; color: black; }
+.draggable {
+  position: absolute; width: 60px; z-index: 10; cursor: move;
+}
+.delete-btn {
+  position: absolute; background: red; color: white;
+  border: none; border-radius: 50%; font-size: 14px;
+  width: 20px; height: 20px; cursor: pointer; z-index: 11;
+}
+#invoice-summary {
+  position: fixed; bottom: 0; left: 0; width: 100%;
+  background: #111; color: white; font-family: monospace;
+  font-size: 0.9rem; padding: 0.5rem; z-index: 15; overflow-x: auto;
+  white-space: nowrap;
+}
+</style>
+</head>
+<body>
+<div id="labWrapper"></div>
+<div class="sidebar" id="sidebar"></div>
+<div id="invoice-summary">Invoice Summary:</div>
+<script>
+const productData = {
+  "STERILIZATION": [
+    {
+      name: "Bleach solution containers",
+      tier: "DIY",
+      price: 7.49,
+      url: "https://amzn.to/4imbbye",
+      image: "Bleach%20solution%20containers.png"
+    },
+    {
+      name: "Spray bottles (isopropyl, bleach, HOCl)",
+      tier: "DIY",
+      price: 7.5,
+      url: "https://amzn.to/42xaGLQ",
+      image: "Spray%20bottles%20%28isopropyl%2C%20bleach%2C%20HOCl%29.png"
+    },
+    {
+      name: "Spray bottles (isopropyl, bleach, HOCl)",
+      tier: "Mid",
+      price: 33.7,
+      url: "https://amzn.to/4j6YhVY",
+      image: "Spray%20bottles%20%28isopropyl%2C%20bleach%2C%20HOCl%29.png"
+    },
+    {
+      name: "HOCl generators",
+      tier: "DIY",
+      price: 26.05,
+      url: "https://amzn.to/3Gd4TUi",
+      image: "HOCl%20generators.png"
+    },
+    {
+      name: "HOCl generators",
+      tier: "Mid",
+      price: 311.38,
+      url: "https://amzn.to/44tZcv7",
+      image: "HOCl%20generators.png"
+    },
+    {
+      name: "HOCl generators",
+      tier: "Pro",
+      price: 2199.0,
+      url: "https://store.hocl.com/hypo",
+      image: "HOCl%20generators.png"
+    },
+    {
+      name: "Alcohol burners",
+      tier: "Mid",
+      price: 13.1,
+      url: "https://amzn.to/43YPFw2",
+      image: "Alcohol%20burners.png"
+    },
+    {
+      name: "70% isopropyl alcohol",
+      tier: "Mid",
+      price: 30.39,
+      url: "https://amzn.to/4ip7s35",
+      image: "70%25%20isopropyl%20alcohol.png"
+    },
+    {
+      name: "HOCl spray",
+      tier: "Mid",
+      price: 70.0,
+      url: "https://store.athenaag.com/cleanse",
+      image: "HOCl%20spray.png"
+    },
+    {
+      name: "Bleach solution (10–15%)",
+      tier: "DIY",
+      price: 12.62,
+      url: "https://amzn.to/42sQlbX",
+      image: "Bleach%20solution%20%2810%E2%80%9315%25%29.png"
+    },
+    {
+      name: "Bleach solution (10–15%)",
+      tier: "Mid",
+      price: 98.98,
+      url: "https://amzn.to/42jiyle",
+      image: "Bleach%20solution%20%2810%E2%80%9315%25%29.png"
+    },
+    {
+      name: "Laminar flow hood (horizontal or vertical)",
+      tier: "DIY",
+      price: 299.99,
+      url: "https://plantcelltechnology.com/products/the-mini-portable-laminar-flow-hood",
+      image: "Laminar%20flow%20hood%20%28horizontal%20or%20vertical%29.png"
+    },
+    {
+      name: "Laminar flow hood (horizontal or vertical)",
+      tier: "Mid",
+      price: 1800.0,
+      url: "https://store.athenaag.com/culture-kit",
+      image: "Laminar%20flow%20hood%20%28horizontal%20or%20vertical%29.png"
+    },
+    {
+      name: "Laminar flow hood (horizontal or vertical)",
+      tier: "Pro",
+      price: 13620.0,
+      url: "https://www.thermofisher.com/ca/en/home/life-science/lab-equipment/biological-safety-cabinets/models/heraguard-eco-clean-bench.html",
+      image: "Laminar%20flow%20hood%20%28horizontal%20or%20vertical%29.png"
+    },
+    {
+      name: "Autoclave/Pressure cooker",
+      tier: "DIY",
+      price: 112.49,
+      url: "https://amzn.to/42sQPih",
+      image: "Autoclave/Pressure%20cooker.png"
+    },
+    {
+      name: "Autoclave/Pressure cooker",
+      tier: "Mid",
+      price: 662.97,
+      url: "https://amzn.to/3Ebu2hC",
+      image: "Autoclave/Pressure%20cooker.png"
+    },
+  ],
+  "TC_TOOLS": [
+    {
+      name: "Scalpel handle (standard)",
+      tier: "DIY",
+      price: 2.69,
+      url: "https://amzn.to/4lwiVRb",
+      image: "Scalpel%20handle%20%28standard%29.png"
+    },
+    {
+      name: "Scalpel handle (standard)",
+      tier: "Mid",
+      price: 11.0,
+      url: "https://amzn.to/4iorlap",
+      image: "Scalpel%20handle%20%28standard%29.png"
+    },
+    {
+      name: "Scalpel blades (#10, #11, #15)",
+      tier: "Mid",
+      price: 22.35,
+      url: "https://amzn.to/3RIaVyR",
+      image: "Scalpel%20blades%20%28%2310%2C%20%2311%2C%20%2315%29.png"
+    },
+    {
+      name: "Surgical scissors",
+      tier: "Mid",
+      price: 19.99,
+      url: "https://amzn.to/3GrS0Wj",
+      image: "Surgical%20scissors.png"
+    },
+    {
+      name: "Fine-tip forceps",
+      tier: "Mid",
+      price: 12.11,
+      url: "https://amzn.to/42k93lX",
+      image: "Fine-tip%20forceps.png"
+    },
+    {
+      name: "Curved forceps",
+      tier: "Mid",
+      price: 12.99,
+      url: "https://amzn.to/4cVnjFv",
+      image: "Curved%20forceps.png"
+    },
+    {
+      name: "Dissecting needles",
+      tier: "DIY",
+      price: 4.1,
+      url: "https://amzn.to/4jGzSGP",
+      image: "Dissecting%20needles.png"
+    },
+    {
+      name: "Borosilicate Erlenmeyer flasks",
+      tier: "Mid",
+      price: 26.94,
+      url: "https://amzn.to/3Y5yRzE",
+      image: "Borosilicate%20Erlenmeyer%20flasks.png"
+    },
+    {
+      name: "Graduated cylinders",
+      tier: "Mid",
+      price: 29.98,
+      url: "https://amzn.to/3ECJX8y",
+      image: "Graduated%20cylinders.png"
+    },
+    {
+      name: "Pipettes (manual or digital)",
+      tier: "DIY",
+      price: 13.99,
+      url: "https://amzn.to/4jdVlqy",
+      image: "Pipettes%20%28manual%20or%20digital%29.png"
+    },
+    {
+      name: "Pipettes (manual or digital)",
+      tier: "Mid",
+      price: 100.42,
+      url: "https://www.sisco.com/single-channel-volume-micropipette",
+      image: "Pipettes%20%28manual%20or%20digital%29.png"
+    },
+    {
+      name: "Media storage bottles",
+      tier: "Mid",
+      price: 39.99,
+      url: "https://amzn.to/3RRL5YX",
+      image: "Media%20storage%20bottles.png"
+    },
+    {
+      name: "Silicone spatula",
+      tier: "Mid",
+      price: 8.27,
+      url: "https://amzn.to/4jFgdqB",
+      image: "Silicone%20spatula.png"
+    },
+    {
+      name: "Digital pH meter",
+      tier: "DIY",
+      price: 7.99,
+      url: "https://amzn.to/42QeN72",
+      image: "Digital%20pH%20meter.png"
+    },
+    {
+      name: "Digital pH meter",
+      tier: "Mid",
+      price: 164.95,
+      url: "https://amzn.to/4cFwVUH",
+      image: "Digital%20pH%20meter.png"
+    },
+    {
+      name: "Digital pH meter",
+      tier: "Pro",
+      price: 333.0,
+      url: "https://bluelab.com/canada/bluelab-multimedia-ph-meter",
+      image: "Digital%20pH%20meter.png"
+    },
+    {
+      name: "pH meter calibration solution",
+      tier: "Mid",
+      price: 19.99,
+      url: "https://amzn.to/4jvaZh8",
+      image: "pH%20meter%20calibration%20solution.png"
+    },
+    {
+      name: "pH meter calibration solution",
+      tier: "Pro",
+      price: 86.98,
+      url: "https://amzn.to/3Rq0CiF",
+      image: "pH%20meter%20calibration%20solution.png"
+    },
+    {
+      name: "culture tubes",
+      tier: "Mid",
+      price: 29.99,
+      url: "https://plantcelltechnology.com/products/vented-plant-tc-test-tubes-100ml",
+      image: "culture%20tubes.png"
+    },
+    {
+      name: "Heat-resistant tray",
+      tier: "Mid",
+      price: 21.99,
+      url: "https://amzn.to/42sO7t7",
+      image: "Heat-resistant%20tray.png"
+    },
+  ],
+  "CONSUMABLES": [
+    {
+      name: "Disposable scalpels",
+      tier: "Mid",
+      price: 15.45,
+      url: "https://schaanhealthcare.ca/dynarex-medicut",
+      image: "Disposable%20scalpels.png"
+    },
+    {
+      name: "Sterile wipes",
+      tier: "DIY",
+      price: 3.32,
+      url: "https://amzn.to/3RktRDB",
+      image: "Sterile%20wipes.png"
+    },
+    {
+      name: "Sterile wipes",
+      tier: "Pro",
+      price: 17.59,
+      url: "https://www.staples.ca/products/2960867-en-clorox-healthcare-versasure-alcohol-free-cleaner-disinfectant-wipes-150-wipes?listId=search",
+      image: "Sterile%20wipes.png"
+    },
+    {
+      name: "Paper towels",
+      tier: "DIY",
+      price: 8.54,
+      url: "https://amzn.to/4irdsrX",
+      image: "Paper%20towels.png"
+    },
+    {
+      name: "Paper towels",
+      tier: "Pro",
+      price: 18.15,
+      url: "https://www.carolina.com/microbiology-supplies/paper-towels-sterile-pack-of-250/199710.pr?srsltid=AfmBOoqQCS3kT1TjkxhW-6JArHJr3flSQV026vwtM3oWDOY_nTLg5D-Z",
+      image: "Paper%20towels.png"
+    },
+    {
+      name: "Parafilm",
+      tier: "DIY",
+      price: 5.99,
+      url: "https://amzn.to/4jw0zha",
+      image: "Parafilm.png"
+    },
+    {
+      name: "Parafilm",
+      tier: "Pro",
+      price: 67.08,
+      url: "https://amzn.to/4lB31ok",
+      image: "Parafilm.png"
+    },
+    {
+      name: "Nitrile gloves",
+      tier: "Mid",
+      price: 13.99,
+      url: "https://amzn.to/3Y3w6iq",
+      image: "Nitrile%20gloves.png"
+    },
+    {
+      name: "Face mask",
+      tier: "Mid",
+      price: 14.93,
+      url: "https://amzn.to/42wncew",
+      image: "Face%20mask.png"
+    },
+    {
+      name: "Desiccant packs",
+      tier: "Mid",
+      price: 16.14,
+      url: "https://amzn.to/4jd08bI",
+      image: "Desiccant%20packs.png"
+    },
+  ],
+  "TC_GROWTH/_STORAGE": [
+    {
+      name: "Culture rack light",
+      tier: "Mid",
+      price: 195.0,
+      url: "https://mammothlighting.com/products/100w-single-bar-multi-use-mammoth-lighting-samsung-lm301b-diodes",
+      image: "Culture%20rack%20light.png"
+    },
+    {
+      name: "Temperature-controlled growth chamber",
+      tier: "Mid",
+      price: 179.0,
+      url: "https://store.athenaag.com/vpdome",
+      image: "Temperature-controlled%20growth%20chamber.png"
+    },
+    {
+      name: "Wire shelving rack",
+      tier: "Mid",
+      price: 50.33,
+      url: "https://amzn.to/3ErUSBZ",
+      image: "Wire%20shelving%20rack.png"
+    },
+  ],
+  "LAB_EQUIPMENT": [
+    {
+      name: "Adjustable gooseneck lab lamp",
+      tier: "Mid",
+      price: 39.69,
+      url: "https://amzn.to/42CrzF5",
+      image: "Adjustable%20gooseneck%20lab%20lamp.png"
+    },
+    {
+      name: "Digital scale (0.01g or 0.001g)",
+      tier: "Mid",
+      price: 12.09,
+      url: "https://amzn.to/3Es7rgI",
+      image: "Digital%20scale%20%280.01g%20or%200.001g%29.png"
+    },
+    {
+      name: "Digital scale (0.01g or 0.001g)",
+      tier: "Pro",
+      price: 315.0,
+      url: "https://www.uline.ca/Product/Detail/H-9884/Compact-Bench-Scales/Uline-Balance-Scale-220-g-x-001-g?pricode=YN207&gadtype=pla&id=H-9884&gad_source=1&gclid=Cj0KCQjwqv2_BhC0ARIsAFb5Ac-gov-W42A5Mf7FBvgrEoGvcJL5fXhlWaQUsd3OxwiAKqvgBvsj3ncaAk50EALw_wcB",
+      image: "Digital%20scale%20%280.01g%20or%200.001g%29.png"
+    },
+    {
+      name: "Microwave (dedicated for lab use)",
+      tier: "DIY",
+      price: 109.99,
+      url: "https://amzn.to/3Y3fG9C",
+      image: "Microwave%20%28dedicated%20for%20lab%20use%29.png"
+    },
+    {
+      name: "USB digital microscope or stereo dissecting microscope",
+      tier: "Mid",
+      price: 49.99,
+      url: "https://amzn.to/4juy2bG",
+      image: "USB%20digital%20microscope%20or%20stereo%20dissecting%20microscope.png"
+    },
+    {
+      name: "USB digital microscope or stereo dissecting microscope",
+      tier: "Pro",
+      price: 1269.99,
+      url: "https://amscope.com/products/c-t120-tp2",
+      image: "USB%20digital%20microscope%20or%20stereo%20dissecting%20microscope.png"
+    },
+    {
+      name: "Timer or stopwatch",
+      tier: "Mid",
+      price: 29.96,
+      url: "https://amzn.to/3Y4YLU7",
+      image: "Timer%20or%20stopwatch.png"
+    },
+    {
+      name: "Magnetic stir plate",
+      tier: "DIY",
+      price: 9.99,
+      url: "https://amzn.to/43T5012",
+      image: "Magnetic%20stir%20plate.png"
+    },
+    {
+      name: "Magnetic stir plate",
+      tier: "Mid",
+      price: 33.8,
+      url: "https://amzn.to/4je8D6n",
+      image: "Magnetic%20stir%20plate.png"
+    },
+    {
+      name: "Magnetic stir plate",
+      tier: "Pro",
+      price: 249.99,
+      url: "https://amzn.to/4lzMpxl",
+      image: "Magnetic%20stir%20plate.png"
+    },
+    {
+      name: "Magnetic stir bars",
+      tier: "Mid",
+      price: 10.33,
+      url: "https://amzn.to/4ilMpyb",
+      image: "Magnetic%20stir%20bars.png"
+    },
+    {
+      name: "Lab coat",
+      tier: "Mid",
+      price: 19.99,
+      url: "https://amzn.to/4lSwR8j",
+      image: "Lab%20coat.png"
+    },
+    {
+      name: "Safety goggles",
+      tier: "Mid",
+      price: 7.97,
+      url: "https://amzn.to/4jbqgUr",
+      image: "Safety%20goggles.png"
+    },
+  ],
+  "INFRASTRUCTURE": [
+    {
+      name: "Stainless steel table",
+      tier: "DIY",
+      price: 39.79,
+      url: "https://amzn.to/42joFWS",
+      image: "Stainless%20steel%20table.png"
+    },
+    {
+      name: "Stainless steel table",
+      tier: "Mid",
+      price: 329.98,
+      url: "https://amzn.to/3ECJF1s",
+      image: "Stainless%20steel%20table.png"
+    },
+    {
+      name: "Epoxy resin lab bench",
+      tier: "Pro",
+      price: 2138.47,
+      url: "https://www.fishersci.ca/shop/products/4953150/p-4953150",
+      image: "Epoxy%20resin%20lab%20bench.png"
+    },
+    {
+      name: "Standalone HEPA filter unit",
+      tier: "Mid",
+      price: 599.0,
+      url: "https://mammothlighting.com/products/capture-kill-air-and-surface-sanitizer-hepa-pco-technology?srsltid=AfmBOorY7yn18VfxEBiE5bjenymHD1slJ7hSc8CoEAcS8I_mu9p7rvci",
+      image: "Standalone%20HEPA%20filter%20unit.png"
+    },
+    {
+      name: "Standalone HEPA filter unit",
+      tier: "Pro",
+      price: 2500.0,
+      url: "https://www.sentryair.com/commercial-uv-air-purifier.htm#:~:text=A%20Commercial%20UV%20Air%20Purifier%20uses%20a%20powerful%20airflow%20and,a%20process%20called%20germicidal%20irradiation.",
+      image: "Standalone%20HEPA%20filter%20unit.png"
+    },
+    {
+      name: "Thermostat controller",
+      tier: "Mid",
+      price: 439.99,
+      url: "https://ca.mangotech.store/products/tent-x",
+      image: "Thermostat%20controller.png"
+    },
+    {
+      name: "Thermostat controller",
+      tier: "Pro",
+      price: 3464.99,
+      url: "https://ca.mangotech.store/products/hydro-x-pro-control-system-hcs-2",
+      image: "Thermostat%20controller.png"
+    },
+    {
+      name: "Plastic storage drawers",
+      tier: "Mid",
+      price: 29.99,
+      url: "https://amzn.to/3RRKF4O",
+      image: "Plastic%20storage%20drawers.png"
+    },
+    {
+      name: "Airtight bins for gear storage",
+      tier: "Mid",
+      price: 24.99,
+      url: "https://amzn.to/4jHKhlz",
+      image: "Airtight%20bins%20for%20gear%20storage.png"
+    },
+    {
+      name: "Reverse osmosis (RO) system",
+      tier: "Mid",
+      price: 415.99,
+      url: "https://amzn.to/3Rks15F",
+      image: "Reverse%20osmosis%20%28RO%29%20system.png"
+    },
+    {
+      name: "Refrigerator or mini-fridge",
+      tier: "Mid",
+      price: 218.78,
+      url: "https://amzn.to/4jDruI6",
+      image: "Refrigerator%20or%20mini-fridge.png"
+    },
+    {
+      name: "Refrigerator or mini-fridge",
+      tier: "Pro",
+      price: 1950.0,
+      url: "https://amzn.to/4ip8eNb",
+      image: "Refrigerator%20or%20mini-fridge.png"
+    },
+    {
+      name: "Chemical cabinet",
+      tier: "Mid",
+      price: 345.0,
+      url: "https://amzn.to/4jffuMU",
+      image: "Chemical%20cabinet.png"
+    },
+  ],
+  "MEDIA_CONSUMABLES": [
+    {
+      name: "Water storage carboy",
+      tier: "Mid",
+      price: 27.59,
+      url: "https://amzn.to/4jbquuL",
+      image: "Water%20storage%20carboy.png"
+    },
+    {
+      name: "MS powder (or DKW/B5)",
+      tier: "Mid",
+      price: 15.99,
+      url: "https://plantcelltechnology.com/products/murashige-skoog-medium",
+      image: "MS%20powder%20%28or%20DKW/B5%29.png"
+    },
+    {
+      name: "MS powder (or DKW/B5)",
+      tier: "Pro",
+      price: 49.99,
+      url: "https://plantcelltechnology.com/products/dkw-medium-w-vitamins",
+      image: "MS%20powder%20%28or%20DKW/B5%29.png"
+    },
+    {
+      name: "Agar or Phytagel",
+      tier: "DIY",
+      price: 15.86,
+      url: "https://amzn.to/3Esc6ze",
+      image: "Agar%20or%20Phytagel.png"
+    },
+    {
+      name: "Agar or Phytagel",
+      tier: "Mid",
+      price: 19.99,
+      url: "https://plantcelltechnology.com/products/supreme-tc-grade-agar",
+      image: "Agar%20or%20Phytagel.png"
+    },
+    {
+      name: "Agar or Phytagel",
+      tier: "Pro",
+      price: 36.99,
+      url: "https://plantcelltechnology.com/products/gellan-gum",
+      image: "Agar%20or%20Phytagel.png"
+    },
+    {
+      name: "PGRs (cytokinins, auxins)",
+      tier: "Mid",
+      price: 39.99,
+      url: "https://plantcelltechnology.com/products/gibberellic-acid-ga3-solution-1mg-1ml?_pos=10&_fid=04b60a6b4&_ss=c",
+      image: "PGRs%20%28cytokinins%2C%20auxins%29.png"
+    },
+    {
+      name: "Activated charcoal",
+      tier: "Mid",
+      price: 80.0,
+      url: "https://store.athenaag.com/culture-media-roots",
+      image: "Activated%20charcoal.png"
+    },
+  ],
+};
+
+
+const sidebar = document.getElementById("sidebar");
+const labWrapper = document.getElementById("labWrapper");
+const invoiceSummary = document.getElementById("invoice-summary");
+
+for (const [zone, items] of Object.entries(productData)) {
+  const group = document.createElement("div");
+  group.className = "zone-group";
+
+  const title = document.createElement("div");
+  title.className = "zone-title";
+  title.innerText = zone;
+  title.onclick = () => {
+    const groupItems = group.querySelector(".item-group");
+    groupItems.style.display = groupItems.style.display === "block" ? "none" : "block";
+  };
+
+  const container = document.createElement("div");
+  container.className = "item-group";
+
+  const itemMap = {};
+  items.forEach(item => {
+    const key = `${item.name}__${item.tier}`;
+    if (!itemMap[item.name]) {
+      const itemLabel = document.createElement("div");
+      itemLabel.className = "item-name";
+      itemLabel.innerText = item.name;
+      container.appendChild(itemLabel);
+      itemMap[item.name] = itemLabel;
+    }
+    const btn = document.createElement("button");
+    btn.className = "tier-button";
+    btn.innerText = `${item.tier}: ${item.price}`;
+    btn.onclick = () => spawnItem(item.name, item.tier, item);
+    container.appendChild(btn);
+  });
+
+  group.appendChild(title);
+  group.appendChild(container);
+  sidebar.appendChild(group);
+}
+
+function spawnItem(name, tier, data) {
+  const img = document.createElement("img");
+  img.className = "draggable";
+  img.style.left = `${100 + Math.floor(Math.random() * 30)}px`;
+  img.style.top = `${100 + Math.floor(Math.random() * 30)}px`;
+  img.setAttribute("draggable", "true");
+  img.src = "https://magical-sable-48a8f9.netlify.app/assets/" + data.image;
+
+  img.onerror = () => {
+    img.src = "https://magical-sable-48a8f9.netlify.app/assets/fallback.png";
+  };
+
+  img.onload = () => {
+    const del = document.createElement("button");
+    del.innerText = "×";
+    del.className = "delete-btn";
+    del.onclick = () => {
+      labWrapper.removeChild(img);
+      labWrapper.removeChild(del);
+      const lines = Array.from(invoiceSummary.querySelectorAll("div"));
+      lines.forEach(line => {
+        if (line.dataset.id === name + tier) line.remove();
+      });
+    };
+
+    img.addEventListener("dragend", (e) => {
+      const gridSize = 40;
+      const x = Math.round(e.pageX / gridSize) * gridSize;
+      const y = Math.round(e.pageY / gridSize) * gridSize;
+      img.style.left = `${x}px`;
+      img.style.top = `${y}px`;
+      del.style.left = `${x - 10}px`;
+      del.style.top = `${y - 10}px`;
+    });
+
+    const invoiceLine = document.createElement("div");
+    invoiceLine.innerHTML = `${name} ({tier}) — <a href="${data.url}" target="_blank">${data.price.toFixed(2)}</a>`;
+    invoiceLine.dataset.id = name + tier;
+    invoiceSummary.appendChild(invoiceLine);
+
+    labWrapper.appendChild(img);
+    labWrapper.appendChild(del);
+  };
+}
+</script>
+</body>
+</html>
