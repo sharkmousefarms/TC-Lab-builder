@@ -1,187 +1,167 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TC Lab Builder</title>
-  <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>TC Lab Final UI</title>
   <style>
-    html, body {
-      margin: 0; padding: 0; background: black;
-      font-family: 'Audiowide', cursive; height: 100%; overflow: hidden;
+    body {
+      margin: 0;
+      background: black;
+      font-family: sans-serif;
     }
-    #labWrapper {
-      position: relative; width: 100vw; height: 100vh;
-      background: url('https://magical-sable-48a8f9.netlify.app/resized_lab_ui_image.png') center/contain no-repeat;
+    #lab-scene {
+      position: relative;
+      width: 630px;
+      height: 945px;
+      margin: 0 auto;
     }
-    .sidebar {
-      position: fixed; right: 0; top: 0; width: 360px; height: 100%;
-      background: rgba(0,15,30,0.95); color: white;
-      overflow-y: auto; padding: 1rem; z-index: 20;
-      border-left: 2px solid cyan;
+    #labView {
+      width: 630px;
+      height: 945px;
+      display: block;
     }
-    .zone-group {
-      margin-bottom: 1rem;
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 630px;
+      height: 945px;
+      z-index: 3;
+      visibility: hidden;
+      pointer-events: none;
     }
-    .zone-title {
-      font-size: 1.4rem; color: cyan;
-      cursor: pointer; margin-bottom: 0.3rem;
+    .overlay.visible {
+      visibility: visible;
     }
-    .item-group { margin-left: 1rem; display: none; }
-    .item-name { margin: 0.5rem 0; color: #0ff; }
-    .tier-button {
-      margin-left: 1.5rem; margin-bottom: 0.3rem;
-      background: #111; color: white; border: 1px solid #0ff;
-      padding: 0.3rem 0.5rem; cursor: pointer; display: inline-block;
+    .zone-btn {
+      position: relative;
+      display: block;
+      margin: 5px;
+      padding: 5px 10px;
+      background: #222;
+      color: white;
+      border: 1px solid #555;
+      cursor: pointer;
     }
-    .tier-button:hover { background: cyan; color: black; }
-    .draggable {
-      position: absolute; width: 60px; z-index: 10; cursor: move;
-    }
-    .delete-btn {
-      position: absolute; background: red; color: white;
-      border: none; border-radius: 50%; font-size: 14px;
-      width: 20px; height: 20px; cursor: pointer; z-index: 11;
+    #sidebar {
+      position: absolute;
+      left: 660px;
+      top: 0;
+      width: 260px;
+      height: 945px;
+      background: #111;
+      border-left: 1px solid #333;
+      padding: 10px;
+      color: white;
+      font-size: 14px;
     }
     #invoice-summary {
-      position: fixed; bottom: 0; left: 0; width: 100%;
-      background: #111; color: white; font-family: monospace;
-      font-size: 0.9rem; padding: 0.5rem; z-index: 15; overflow-x: auto;
-      white-space: nowrap;
+      margin-top: 10px;
+      font-size: 12px;
     }
   </style>
 </head>
 <body>
-  <div id="labWrapper"></div>
-  <div class="sidebar" id="sidebar"></div>
-  <div id="invoice-summary">Invoice Summary:</div>
+  <div style="display:flex;">
+    <div id="lab-scene">
+      <img id="labView" src="Background.png" />
+      <img class="overlay" id="Spray" src="Spray bottles (isopropyl, bleach, HOCl).png" />
+      <img class="overlay" id="Autoclave" src="Autoclave-Pressure cooker.png" />
+      <img class="overlay" id="Flowhood" src="Laminar flow hood (horizontal or vertical).png" />
+    </div>
+    <div id="sidebar">
+      <div class="zone-btn" onclick="toggleOverlay('Spray')">Spray Bottles</div>
+      <div class="zone-btn" onclick="toggleOverlay('Autoclave')">Autoclave</div>
+      <div class="zone-btn" onclick="toggleOverlay('Flowhood')">Flow Hood</div>
+      <div id="invoice-summary"></div>
+    </div>
+  </div>
+
   <script>
-    const productData = [
-      {
-        "zone": "Sterilization",
-        "category": "Surface Treatment",
-        "item_name": "Spray bottles (isopropyl, bleach, HOCl)",
-        "tiers": {
-          "DIY": {
-            "link": "https://amzn.to/42xaGLQ",
-            "price": 7.50,
-            "image": "Spray bottles (isopropyl, bleach, HOCl).png"
-          },
-          "Mid": {
-            "link": "https://amzn.to/4j6YhVY",
-            "price": 33.70,
-            "image": "Spray bottles (isopropyl, bleach, HOCl).png"
-          }
+    function toggleOverlay(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.toggle("visible");
+
+      const summary = document.getElementById("invoice-summary");
+      const lineId = "inv-" + id;
+      let entry = document.getElementById(lineId);
+      if (el.classList.contains("visible")) {
+        if (!entry) {
+          entry = document.createElement("div");
+          entry.id = lineId;
+          entry.innerText = id;
+          summary.appendChild(entry);
         }
-      },
-      {
-        "zone": "Lab Equipment",
-        "category": "Lighting",
-        "item_name": "Culture rack light",
-        "tiers": {
-          "Mid": {
-            "link": "https://mammothlighting.com/products/100w-single-bar-multi-use-mammoth-lighting-samsung-lm301b-diodes",
-            "price": 195.0,
-            "image": "Culture rack light.png"
-          }
-        }
-      },
-      {
-        "zone": "Lab Equipment",
-        "category": "Sterility",
-        "item_name": "Laminar flow hood (horizontal or vertical)",
-        "tiers": {
-          "DIY": {
-            "link": "https://plantcelltechnology.com/products/the-mini-portable-laminar-flow-hood",
-            "price": 299.99,
-            "image": "Laminar flow hood (horizontal or vertical).png"
-          }
-        }
+      } else {
+        if (entry) entry.remove();
       }
-    ];
-
-    const sidebar = document.getElementById("sidebar");
-    const labWrapper = document.getElementById("labWrapper");
-    const invoiceSummary = document.getElementById("invoice-summary");
-
-    const zones = {};
-    productData.forEach(item => {
-      if (!zones[item.zone]) zones[item.zone] = [];
-      zones[item.zone].push(item);
-    });
-
-    for (const [zoneName, items] of Object.entries(zones)) {
-      const group = document.createElement("div");
-      group.className = "zone-group";
-
-      const title = document.createElement("div");
-      title.className = "zone-title";
-      title.innerText = zoneName;
-      title.onclick = () => group.querySelector('.item-group').style.display =
-        group.querySelector('.item-group').style.display === 'block' ? 'none' : 'block';
-
-      const container = document.createElement("div");
-      container.className = "item-group";
-
-      items.forEach(item => {
-        const itemLabel = document.createElement("div");
-        itemLabel.className = "item-name";
-        itemLabel.innerText = item.item_name;
-        container.appendChild(itemLabel);
-
-        for (const [tier, tierData] of Object.entries(item.tiers)) {
-          const btn = document.createElement("button");
-          btn.className = "tier-button";
-          btn.innerText = `${tier}: $${tierData.price}`;
-          btn.onclick = () => spawnItem(item.item_name, tier, tierData);
-          container.appendChild(btn);
-        }
-      });
-
-      group.appendChild(title);
-      group.appendChild(container);
-      sidebar.appendChild(group);
-    }
-
-    function spawnItem(name, tier, data) {
-      const img = document.createElement("img");
-      img.src = "https://magical-sable-48a8f9.netlify.app/assets/" + data.image;
-      img.className = "draggable";
-      img.style.left = "100px";
-      img.style.top = "100px";
-      img.setAttribute("draggable", "true");
-
-      const del = document.createElement("button");
-      del.innerText = "×";
-      del.className = "delete-btn";
-      del.onclick = () => {
-        labWrapper.removeChild(img);
-        labWrapper.removeChild(del);
-        const lines = Array.from(invoiceSummary.querySelectorAll("div"));
-        lines.forEach(line => {
-          if (line.dataset.id === name + tier) line.remove();
-        });
-      };
-
-      img.addEventListener("dragend", (e) => {
-        const gridSize = 40;
-        const x = Math.round(e.pageX / gridSize) * gridSize;
-        const y = Math.round(e.pageY / gridSize) * gridSize;
-        img.style.left = `${x}px`;
-        img.style.top = `${y}px`;
-        del.style.left = `${x - 10}px`;
-        del.style.top = `${y - 10}px`;
-      });
-
-      const invoiceLine = document.createElement("div");
-      invoiceLine.innerHTML = `${name} (${tier}) — <a href="${data.link}" target="_blank">$${data.price.toFixed(2)}</a>`;
-      invoiceLine.dataset.id = name + tier;
-      invoiceSummary.appendChild(invoiceLine);
-
-      labWrapper.appendChild(img);
-      labWrapper.appendChild(del);
     }
   </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  fetch('lab_builder_data_with_prices.json')
+    .then(response => response.json())
+    .then(data => {
+      const sidebar = document.createElement('div');
+      sidebar.style.position = 'fixed';
+      sidebar.style.top = '0';
+      sidebar.style.right = '0';
+      sidebar.style.width = '300px';
+      sidebar.style.height = '100vh';
+      sidebar.style.overflowY = 'scroll';
+      sidebar.style.background = '#111';
+      sidebar.style.color = '#0ff';
+      sidebar.style.padding = '10px';
+      sidebar.style.zIndex = '1000';
+
+      Object.keys(data).forEach(category => {
+        const zone = document.createElement('h3');
+        zone.textContent = category;
+        zone.style.borderBottom = '1px solid #0ff';
+        sidebar.appendChild(zone);
+
+        data[category].forEach(item => {
+          const itemDiv = document.createElement('div');
+          itemDiv.textContent = item.name;
+          itemDiv.draggable = true;
+          itemDiv.style.cursor = 'grab';
+          itemDiv.style.marginBottom = '5px';
+          itemDiv.style.fontSize = '14px';
+          itemDiv.style.padding = '4px';
+          itemDiv.style.border = '1px solid #0ff';
+
+          itemDiv.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', item.name + '.png');
+          });
+
+          sidebar.appendChild(itemDiv);
+        });
+      });
+
+      document.body.appendChild(sidebar);
+    });
+
+  const labScene = document.getElementById('lab-scene');
+  labScene.addEventListener('dragover', (e) => {
+    e.preventDefault();
+  });
+
+  labScene.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const fileName = e.dataTransfer.getData('text/plain');
+    const img = document.createElement('img');
+    img.src = fileName;
+    img.style.position = 'absolute';
+    img.style.left = (e.offsetX - 50) + 'px';
+    img.style.top = (e.offsetY - 50) + 'px';
+    img.style.width = '100px';
+    labScene.appendChild(img);
+  });
+});
+</script>
+
 </body>
 </html>

@@ -1,0 +1,633 @@
+{
+  "STERILIZATION": [
+    {
+      "name": "Bleach solution containers",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/4imbbye",
+          "price": 7.49
+        }
+      }
+    },
+    {
+      "name": "Spray bottles (isopropyl, bleach, HOCl)",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/42xaGLQ",
+          "price": 7.5
+        },
+        "Mid": {
+          "url": "https://amzn.to/4j6YhVY",
+          "price": 33.7
+        }
+      }
+    },
+    {
+      "name": "HOCl generators",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/3Gd4TUi https://amzn.to/4jfFCrf",
+          "price": 26.05
+        },
+        "Mid": {
+          "url": "https://amzn.to/44tZcv7",
+          "price": 311.38
+        },
+        "Pro": {
+          "url": "https://store.hocl.com/hypo",
+          "price": 2199.0
+        }
+      }
+    },
+    {
+      "name": "Alcohol burners",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/43YPFw2",
+          "price": 13.1
+        }
+      }
+    },
+    {
+      "name": "70% isopropyl alcohol",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/4ip7s35",
+          "price": 30.39
+        }
+      }
+    },
+    {
+      "name": "HOCl spray",
+      "tiers": {
+        "Mid": {
+          "url": "https://store.athenaag.com/cleanse",
+          "price": 70.0
+        }
+      }
+    },
+    {
+      "name": "Bleach solution (10\u201315%)",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/42sQlbX",
+          "price": 12.62
+        },
+        "Mid": {
+          "url": "https://amzn.to/42jiyle",
+          "price": 98.98
+        }
+      }
+    },
+    {
+      "name": "Laminar flow hood (horizontal or vertical)",
+      "tiers": {
+        "DIY": {
+          "url": "https://plantcelltechnology.com/products/the-mini-portable-laminar-flow-hood",
+          "price": 299.99
+        },
+        "Mid": {
+          "url": "https://store.athenaag.com/culture-kit",
+          "price": 1800.0
+        },
+        "Pro": {
+          "url": "https://www.thermofisher.com/ca/en/home/life-science/lab-equipment/biological-safety-cabinets/models/heraguard-eco-clean-bench.html",
+          "price": 13620.0
+        }
+      }
+    },
+    {
+      "name": "Autoclave/Pressure cooker",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/42sQPih",
+          "price": 112.49
+        },
+        "Mid": {
+          "url": "https://amzn.to/3Ebu2hC",
+          "price": 662.97
+        }
+      }
+    }
+  ],
+  "TC_TOOLS": [
+    {
+      "name": "Scalpel handle (standard)",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/4lwiVRb",
+          "price": 2.69
+        },
+        "Mid": {
+          "url": "https://amzn.to/4iorlap",
+          "price": 11.0
+        }
+      }
+    },
+    {
+      "name": "Scalpel blades (#10, #11, #15)",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/3RIaVyR",
+          "price": 22.35
+        }
+      }
+    },
+    {
+      "name": "Surgical scissors",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/3GrS0Wj",
+          "price": 19.99
+        }
+      }
+    },
+    {
+      "name": "Fine-tip forceps",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/42k93lX",
+          "price": 12.11
+        }
+      }
+    },
+    {
+      "name": "Curved forceps",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/4cVnjFv",
+          "price": 12.99
+        }
+      }
+    },
+    {
+      "name": "Dissecting needles",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/4jGzSGP",
+          "price": 4.1
+        }
+      }
+    },
+    {
+      "name": "Borosilicate Erlenmeyer flasks",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/3Y5yRzE",
+          "price": 26.94
+        }
+      }
+    },
+    {
+      "name": "Graduated cylinders",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/3ECJX8y",
+          "price": 29.98
+        }
+      }
+    },
+    {
+      "name": "Pipettes (manual or digital)",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/4jdVlqy",
+          "price": 13.99
+        },
+        "Mid": {
+          "url": "https://www.sisco.com/single-channel-volume-micropipette",
+          "price": 100.42
+        }
+      }
+    },
+    {
+      "name": "Media storage bottles",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/3RRL5YX",
+          "price": 39.99
+        }
+      }
+    },
+    {
+      "name": "Silicone spatula",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/4jFgdqB",
+          "price": 8.27
+        }
+      }
+    },
+    {
+      "name": "Digital pH meter",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/42QeN72",
+          "price": 7.99
+        },
+        "Mid": {
+          "url": "https://amzn.to/4cFwVUH",
+          "price": 164.95
+        },
+        "Pro": {
+          "url": "https://bluelab.com/canada/bluelab-multimedia-ph-meter",
+          "price": 333.0
+        }
+      }
+    },
+    {
+      "name": "pH meter calibration solution",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/4jvaZh8",
+          "price": 19.99
+        },
+        "Pro": {
+          "url": "https://amzn.to/3Rq0CiF",
+          "price": 86.98
+        }
+      }
+    },
+    {
+      "name": "culture tubes",
+      "tiers": {
+        "Mid": {
+          "url": "https://plantcelltechnology.com/products/vented-plant-tc-test-tubes-100ml",
+          "price": 29.99
+        }
+      }
+    },
+    {
+      "name": "Heat-resistant tray",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/42sO7t7",
+          "price": 21.99
+        }
+      }
+    }
+  ],
+  "CONSUMABLES": [
+    {
+      "name": "Disposable scalpels",
+      "tiers": {
+        "Mid": {
+          "url": "https://schaanhealthcare.ca/dynarex-medicut",
+          "price": 15.45
+        }
+      }
+    },
+    {
+      "name": "Sterile wipes",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/3RktRDB",
+          "price": 3.32
+        },
+        "Pro": {
+          "url": "https://www.staples.ca/products/2960867-en-clorox-healthcare-versasure-alcohol-free-cleaner-disinfectant-wipes-150-wipes?listId=search",
+          "price": 17.59
+        }
+      }
+    },
+    {
+      "name": "Paper towels",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/4irdsrX",
+          "price": 8.54
+        },
+        "Pro": {
+          "url": "https://www.carolina.com/microbiology-supplies/paper-towels-sterile-pack-of-250/199710.pr?srsltid=AfmBOoqQCS3kT1TjkxhW-6JArHJr3flSQV026vwtM3oWDOY_nTLg5D-Z",
+          "price": 18.15
+        }
+      }
+    },
+    {
+      "name": "Parafilm",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/4jw0zha",
+          "price": 5.99
+        },
+        "Pro": {
+          "url": "https://amzn.to/4lB31ok",
+          "price": 67.08
+        }
+      }
+    },
+    {
+      "name": "Nitrile gloves",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/3Y3w6iq",
+          "price": 13.99
+        }
+      }
+    },
+    {
+      "name": "Face mask",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/42wncew",
+          "price": 14.93
+        }
+      }
+    },
+    {
+      "name": "Desiccant packs",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/4jd08bI",
+          "price": 16.14
+        }
+      }
+    }
+  ],
+  "TC_GROWTH/_STORAGE": [
+    {
+      "name": "Culture rack light",
+      "tiers": {
+        "Mid": {
+          "url": "https://mammothlighting.com/products/100w-single-bar-multi-use-mammoth-lighting-samsung-lm301b-diodes",
+          "price": 195.0
+        }
+      }
+    },
+    {
+      "name": "Temperature-controlled growth chamber",
+      "tiers": {
+        "Mid": {
+          "url": "https://store.athenaag.com/vpdome",
+          "price": 179.0
+        }
+      }
+    },
+    {
+      "name": "Wire shelving rack",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/3ErUSBZ",
+          "price": 50.33
+        }
+      }
+    }
+  ],
+  "LAB_EQUIPMENT": [
+    {
+      "name": "Adjustable gooseneck lab lamp",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/42CrzF5",
+          "price": 39.69
+        }
+      }
+    },
+    {
+      "name": "Digital scale (0.01g or 0.001g)",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/3Es7rgI",
+          "price": 12.09
+        },
+        "Pro": {
+          "url": "https://www.uline.ca/Product/Detail/H-9884/Compact-Bench-Scales/Uline-Balance-Scale-220-g-x-001-g?pricode=YN207&gadtype=pla&id=H-9884&gad_source=1&gclid=Cj0KCQjwqv2_BhC0ARIsAFb5Ac-gov-W42A5Mf7FBvgrEoGvcJL5fXhlWaQUsd3OxwiAKqvgBvsj3ncaAk50EALw_wcB",
+          "price": 315.0
+        }
+      }
+    },
+    {
+      "name": "Microwave (dedicated for lab use)",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/3Y3fG9C",
+          "price": 109.99
+        }
+      }
+    },
+    {
+      "name": "USB digital microscope or stereo dissecting microscope",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/4juy2bG",
+          "price": 49.99
+        },
+        "Pro": {
+          "url": "https://amscope.com/products/c-t120-tp2",
+          "price": 1269.99
+        }
+      }
+    },
+    {
+      "name": "Timer or stopwatch",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/3Y4YLU7",
+          "price": 29.96
+        }
+      }
+    },
+    {
+      "name": "Magnetic stir plate",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/43T5012",
+          "price": 9.99
+        },
+        "Mid": {
+          "url": "https://amzn.to/4je8D6n",
+          "price": 33.8
+        },
+        "Pro": {
+          "url": "https://amzn.to/4lzMpxl",
+          "price": 249.99
+        }
+      }
+    },
+    {
+      "name": "Magnetic stir bars",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/4ilMpyb",
+          "price": 10.33
+        }
+      }
+    },
+    {
+      "name": "Lab coat",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/4lSwR8j",
+          "price": 19.99
+        }
+      }
+    },
+    {
+      "name": "Safety goggles",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/4jbqgUr",
+          "price": 7.97
+        }
+      }
+    }
+  ],
+  "INFRASTRUCTURE": [
+    {
+      "name": "Stainless steel table",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/42joFWS",
+          "price": 39.79
+        },
+        "Mid": {
+          "url": "https://amzn.to/3ECJF1s",
+          "price": 329.98
+        }
+      }
+    },
+    {
+      "name": "Epoxy resin lab bench",
+      "tiers": {
+        "Pro": {
+          "url": "https://www.fishersci.ca/shop/products/4953150/p-4953150",
+          "price": 2138.47
+        }
+      }
+    },
+    {
+      "name": "Standalone HEPA filter unit",
+      "tiers": {
+        "Mid": {
+          "url": "https://mammothlighting.com/products/capture-kill-air-and-surface-sanitizer-hepa-pco-technology?srsltid=AfmBOorY7yn18VfxEBiE5bjenymHD1slJ7hSc8CoEAcS8I_mu9p7rvci",
+          "price": 599.0
+        },
+        "Pro": {
+          "url": "https://www.sentryair.com/commercial-uv-air-purifier.htm#:~:text=A%20Commercial%20UV%20Air%20Purifier%20uses%20a%20powerful%20airflow%20and,a%20process%20called%20germicidal%20irradiation.",
+          "price": 2500.0
+        }
+      }
+    },
+    {
+      "name": "Thermostat controller",
+      "tiers": {
+        "Mid": {
+          "url": "https://ca.mangotech.store/products/tent-x",
+          "price": 439.99
+        },
+        "Pro": {
+          "url": "https://ca.mangotech.store/products/hydro-x-pro-control-system-hcs-2",
+          "price": 3464.99
+        }
+      }
+    },
+    {
+      "name": "Plastic storage drawers",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/3RRKF4O",
+          "price": 29.99
+        }
+      }
+    },
+    {
+      "name": "Airtight bins for gear storage",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/4jHKhlz",
+          "price": 24.99
+        }
+      }
+    },
+    {
+      "name": "Reverse osmosis (RO) system",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/3Rks15F",
+          "price": 415.99
+        }
+      }
+    },
+    {
+      "name": "Refrigerator or mini-fridge",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/4jDruI6",
+          "price": 218.78
+        },
+        "Pro": {
+          "url": "https://amzn.to/4ip8eNb",
+          "price": 1950.0
+        }
+      }
+    },
+    {
+      "name": "Chemical cabinet",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/4jffuMU",
+          "price": 345.0
+        }
+      }
+    }
+  ],
+  "MEDIA_CONSUMABLES": [
+    {
+      "name": "Water storage carboy",
+      "tiers": {
+        "Mid": {
+          "url": "https://amzn.to/4jbquuL",
+          "price": 27.59
+        }
+      }
+    },
+    {
+      "name": "MS powder (or DKW/B5)",
+      "tiers": {
+        "Mid": {
+          "url": "https://plantcelltechnology.com/products/murashige-skoog-medium",
+          "price": 15.99
+        },
+        "Pro": {
+          "url": "https://plantcelltechnology.com/products/dkw-medium-w-vitamins",
+          "price": 49.99
+        }
+      }
+    },
+    {
+      "name": "Agar or Phytagel",
+      "tiers": {
+        "DIY": {
+          "url": "https://amzn.to/3Esc6ze",
+          "price": 15.86
+        },
+        "Mid": {
+          "url": "https://plantcelltechnology.com/products/supreme-tc-grade-agar",
+          "price": 19.99
+        },
+        "Pro": {
+          "url": "https://plantcelltechnology.com/products/gellan-gum",
+          "price": 36.99
+        }
+      }
+    },
+    {
+      "name": "PGRs (cytokinins, auxins)",
+      "tiers": {
+        "Mid": {
+          "url": "https://plantcelltechnology.com/products/gibberellic-acid-ga3-solution-1mg-1ml?_pos=10&_fid=04b60a6b4&_ss=c https://plantcelltechnology.com/products/indole-3-butyric-acid-iba-solution-1mg-1ml?_pos=2&_fid=04b60a6b4&_ss=c ",
+          "price": 39.99
+        }
+      }
+    },
+    {
+      "name": "Activated charcoal",
+      "tiers": {
+        "Mid": {
+          "url": "https://store.athenaag.com/culture-media-roots https://store.athenaag.com/culture-media-shoots",
+          "price": 80.0
+        }
+      }
+    }
+  ]
+}
